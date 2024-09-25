@@ -52,8 +52,7 @@ function main(){
                 }
                 break; //vai mapear o array de mont.adoras e vai criar uma string com oa dados a partir de cada montadora 
             case 3: //opção para atualizar montadoraa
-                const id_atualizar = get_text('Digite o novo ID: ')
-                atualizar_montadora(id_atualizar);
+                atualizar_montadora();
                 break; 
             case 4:   //opção para remover algma montadora
                 const id_remover = get_text('ID da montadora para ser removido: ')
