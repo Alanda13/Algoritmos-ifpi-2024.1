@@ -1,4 +1,5 @@
-import {print, get_number, writeToFile,readFromFile, get_number_in_range} from "./utils.js"
+
+import {print, get_number, writeToFile,readFromFile, get_number_in_range, get_text} from "./utils.js"
 import { ulid } from 'ulidx';
 import {question} from "readline-sync"
 
@@ -36,25 +37,39 @@ export function cadastrar_montadora(nome, pais, ano) {
 }
 
 
-export function atualizar_montadora(id){
-    const montadora = montadoras.find(m => m.id === id)
+export function atualizar_montadora() {
+    // Verificar se há montadoras disponíveis
+    if (!montadoras || montadoras.length === 0) {
+        print("Não há montadoras cadastradas para atualizar.");
+        return;
+    }
 
-    if(!montadora){
-        print("Montadora não encontrada!!")
+    // Listar apenas os IDs das montadoras
+    print("Montadoras disponíveis para atualização:");
+    montadoras.forEach(m => {
+        print(m.id); // Exibe apenas o ID
+    });
+
+    // Solicitar ao usuário que escolha um ID
+    const id = get_text('Digite o ID da montadora que deseja atualizar: ');
+    const montadora = montadoras.find(m => m.id === id);
+
+    if (!montadora) {
+        print("Montadora não encontrada!!");
         return;
     }
 
     const novo_nome = get_text(`Novo nome (atual: ${montadora.nome}): `) || montadora.nome;
     const novo_pais = get_text(`Novo país (atual: ${montadora.pais}): `) || montadora.pais;
-    const novo_ano = get_number(`Novo ano de fundação (atual: ${montadora.ano_fundacao}): `) || montadora.ano_fundacao;
-    
+    const novo_ano = get_number(`Novo ano de fundação (atual: ${montadora.ano}): `) || montadora.ano;
+
     montadora.nome = novo_nome;
     montadora.pais = novo_pais;
     montadora.ano = novo_ano;
     writeToFile('data/montadoras.txt', montadoras);
-    console.log("Montadora atualizada com sucesso!");
-
+    print("Montadora atualizada com sucesso!");
 }
+
 
 export function remover_montadora(id){
     const montadora = montadoras.find( m => m.id === id);
